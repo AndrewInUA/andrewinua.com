@@ -1,0 +1,24 @@
+{
+  "name": "andrewinua.com",
+  "private": true,
+  "type": "module",
+  "version": "2.0.0",
+  "description": "Website of AndrewInUA — an independent Solana validator from Ukraine.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.4.0",
+    "@astrojs/vercel": "^8.2.0",
+    "@fontsource-variable/newsreader": "^5.2.0",
+    "@fontsource/ibm-plex-mono": "^5.2.0",
+    "@fontsource/ibm-plex-sans": "^5.2.0",
+    "astro": "^5.13.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

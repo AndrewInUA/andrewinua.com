@@ -1,0 +1,78 @@
+---
+import { facts } from '../data/site';
+---
+
+<section class="hero" id="top">
+  <div class="container hero__inner">
+    <img class="hero__mark" src="/images/logo.png" width="150" height="150" alt="AndrewInUA logo" />
+    <p class="hero__hi">Hey, I'm Andrew <span aria-hidden="true">👋</span></p>
+    <h1>Running a Solana validator — with heart and purpose.</h1>
+    <p class="lede hero__lede">
+      I believe in decentralization, community, and building bridges — between people, languages, and ecosystems.
+      By delegating to my node, you support not just performance — but purpose.
+    </p>
+    <div class="hero__actions">
+      <a class="button button--gold" href="#delegate">Delegate now</a>
+      <a class="button button--ghost" href="#about">Read my story</a>
+    </div>
+    <p class="hero__facts">
+      Independent validator on Solana mainnet since {facts.mainnetSince}, in the Solana Foundation Delegation Program.
+      {facts.commission} commission, {facts.mevCommission} MEV commission.
+    </p>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(4rem, 10vw, 7.5rem) clamp(4rem, 9vw, 6.5rem);
+    background:
+      radial-gradient(60% 50% at 50% 0%, rgba(47, 197, 180, 0.12), transparent 70%),
+      var(--navy-800);
+  }
+
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 52rem;
+  }
+
+  .hero__mark {
+    width: clamp(110px, 16vw, 150px);
+    margin-bottom: 1.75rem;
+  }
+
+  .hero__hi {
+    font-size: 1.15rem;
+    color: var(--ink-2);
+    margin-bottom: 0.9rem;
+  }
+
+  .hero h1 {
+    max-width: 16ch;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero__lede {
+    max-width: 38rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero__facts {
+    max-width: 40rem;
+    color: var(--ink-3);
+    font-size: 0.97rem;
+    line-height: 1.55;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+</style>

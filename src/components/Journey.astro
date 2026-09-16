@@ -1,0 +1,202 @@
+---
+import { timeline } from '../data/site';
+---
+
+<section class="section section--deep" id="about">
+  <div class="container">
+    <div class="story">
+      <div class="story__text">
+        <h2>My journey in Solana</h2>
+        <p class="lede">I didn't join Solana as a developer. I joined as someone who believes in decentralization, in open communities, and in the power of values.</p>
+        <p>Before this I was a journalist and a communications specialist. I worked in media, telling real stories and connecting people. When the war in Ukraine began, I felt the need to build something meaningful — something resilient. That's how I discovered Solana.</p>
+        <p>Instead of hype and speculation, I found a place where infrastructure and purpose could meet. I started a testnet validator in March 2022, just weeks after the full-scale invasion began. I had no prior blockchain experience, but I kept going — learning, building, contributing.</p>
+        <p>The validator is still here, and so am I. Along the way it turned into more than a node: tools that explain validators and staking in plain language, an education hub in two languages, and a seat at the table with the people who build this network. This is how it happened, one date at a time.</p>
+      </div>
+      <figure class="story__figure">
+        <picture>
+          <source srcset="/images/andrii-solana-summit-2026-600.webp 600w, /images/andrii-solana-summit-2026.webp 1200w" sizes="(min-width: 900px) 380px, 90vw" type="image/webp" />
+          <img src="/images/andrii-solana-summit-2026.jpg" width="1200" height="1300" alt="Andrii standing in the main hall of Solana Summit Serbia in Belgrade, August 2026" loading="lazy" />
+        </picture>
+        <figcaption>Solana Summit Serbia, Belgrade — my first Solana conference in person. August 2026.</figcaption>
+      </figure>
+    </div>
+
+    <ol class="timeline" aria-label="Timeline">
+      {timeline.map((group) => (
+        <li class="timeline__year">
+          <h3 class="timeline__year-label">{group.year}</h3>
+          <ol class="timeline__items">
+            {group.items.map((m) => (
+              <li class="milestone">
+                <p class="milestone__date">{m.date}</p>
+                <p class="milestone__title">{m.title}</p>
+                {m.detail && <p class="milestone__detail">{m.detail}</p>}
+                {m.link && (
+                  <p class="milestone__link">
+                    <a href={m.link.href} target="_blank" rel="noopener">{m.link.label}</a>
+                  </p>
+                )}
+              </li>
+            ))}
+          </ol>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .story {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+    margin-bottom: clamp(3rem, 7vw, 5rem);
+  }
+
+  .story__text {
+    max-width: var(--measure);
+  }
+
+  .story__text h2 {
+    margin-bottom: 1rem;
+  }
+
+  .story__text .lede {
+    margin-bottom: 1.25rem;
+  }
+
+  .story__text p:not(.lede) {
+    color: var(--ink-2);
+  }
+
+  .story__figure {
+    margin: 0;
+    max-width: 380px;
+  }
+
+  .story__figure img {
+    width: 100%;
+    border-radius: var(--radius);
+    aspect-ratio: 12 / 13;
+    object-fit: cover;
+  }
+
+  .story__figure figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.92rem;
+    color: var(--ink-3);
+    line-height: 1.45;
+  }
+
+  @media (min-width: 900px) {
+    .story {
+      grid-template-columns: minmax(0, 1fr) 380px;
+    }
+  }
+
+  /* Timeline */
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.45rem;
+    top: 0.5rem;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), rgba(249, 203, 32, 0.25));
+  }
+
+  .timeline__year {
+    position: relative;
+    padding-left: 2.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .timeline__year::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--navy-900);
+    border: 3px solid var(--gold);
+    box-sizing: border-box;
+  }
+
+  .timeline__year-label {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--gold);
+    margin-bottom: 1.25rem;
+  }
+
+  .timeline__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  .milestone {
+    max-width: var(--measure);
+  }
+
+  .milestone p {
+    margin: 0;
+  }
+
+  .milestone__date {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--teal);
+    margin-bottom: 0.15rem;
+  }
+
+  .milestone__title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    line-height: 1.25;
+  }
+
+  .milestone__detail {
+    color: var(--ink-2);
+    margin-top: 0.25rem;
+  }
+
+  .milestone__link {
+    margin-top: 0.35rem;
+    font-size: 0.97rem;
+  }
+
+  @media (min-width: 900px) {
+    .timeline::before {
+      left: 8.4rem;
+    }
+    .timeline__year {
+      display: grid;
+      grid-template-columns: 6.5rem minmax(0, 1fr);
+      gap: 3rem;
+      padding-left: 0;
+    }
+    .timeline__year::before {
+      left: 7.95rem;
+    }
+    .timeline__year-label {
+      text-align: right;
+      margin-bottom: 0;
+      padding-top: 0.1rem;
+    }
+  }
+</style>

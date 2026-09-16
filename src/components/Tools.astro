@@ -1,0 +1,98 @@
+---
+import { projects } from '../data/site';
+---
+
+<section class="section section--deep" id="tools">
+  <div class="container">
+    <div class="section-head">
+      <h2>Tools and projects</h2>
+      <p class="lede">I'm not a developer — but I believe in solving real problems. These are the tools and projects I've built for the Solana ecosystem and the Ukrainian community, mostly to answer questions I kept hearing from delegators and other operators.</p>
+    </div>
+
+    <ol class="projects">
+      {projects.map((p) => (
+        <li class="project">
+          <div class="project__head">
+            {p.icon && <img class="project__icon" src={p.icon} width="44" height="44" alt="" loading="lazy" />}
+            <div>
+              <h3>{p.name}</h3>
+              {p.tag && <p class="project__tag">{p.tag}</p>}
+            </div>
+          </div>
+          <p class="project__summary">{p.summary}</p>
+          <p class="project__links">
+            {p.links.map((l) => (
+              <a href={l.href} target="_blank" rel="noopener">{l.label}</a>
+            ))}
+          </p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .projects {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .project {
+    display: grid;
+    gap: 0.75rem 3rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .project__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+  }
+
+  .project__icon {
+    flex: 0 0 auto;
+    margin-top: 0.15rem;
+  }
+
+  .project__tag {
+    margin: 0.25rem 0 0;
+    color: var(--teal);
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+
+  .project__summary {
+    color: var(--ink-2);
+    max-width: var(--measure);
+    margin: 0;
+  }
+
+  .project__links {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    font-weight: 500;
+  }
+
+  @media (min-width: 900px) {
+    .project {
+      grid-template-columns: 19rem minmax(0, 1fr);
+      grid-template-areas:
+        'head summary'
+        'head links';
+    }
+    .project__head {
+      grid-area: head;
+    }
+    .project__summary {
+      grid-area: summary;
+    }
+    .project__links {
+      grid-area: links;
+    }
+  }
+</style>

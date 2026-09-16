@@ -1,0 +1,138 @@
+---
+import { nav, site } from '../data/site';
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="#top" aria-label={`${site.name} — home`}>
+      <img src="/images/logo-160.png" width="40" height="40" alt="" />
+      <span>{site.name}</span>
+    </a>
+
+    <nav class="nav nav--wide" aria-label="Sections">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <a class="button button--gold header__cta" href="#delegate">Delegate</a>
+
+    <details class="menu">
+      <summary aria-label="Open menu">Menu</summary>
+      <nav class="nav nav--narrow" aria-label="Sections">
+        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a href="#delegate">Delegate</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11, 27, 93, 0.86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 4.25rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .brand img {
+    border-radius: 50%;
+  }
+
+  .nav a {
+    color: var(--ink-2);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.97rem;
+    padding: 0.35rem 0;
+    border-bottom: 1.5px solid transparent;
+  }
+
+  .nav a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--gold);
+  }
+
+  .nav--wide {
+    display: none;
+    gap: 1.4rem;
+    margin-left: auto;
+  }
+
+  .header__cta {
+    display: none;
+    padding: 0.6rem 1.05rem;
+    font-size: 0.95rem;
+  }
+
+  .menu {
+    margin-left: auto;
+    position: relative;
+  }
+
+  .menu summary {
+    list-style: none;
+    cursor: pointer;
+    color: var(--ink);
+    font-weight: 500;
+    padding: 0.5rem 0.2rem;
+  }
+
+  .menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .nav--narrow {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    display: flex;
+    flex-direction: column;
+    min-width: 12rem;
+    padding: 0.75rem 1rem;
+    background: var(--navy-900);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  }
+
+  .nav--narrow a {
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav--narrow a:last-child {
+    border-bottom: 0;
+    color: var(--gold);
+  }
+
+  @media (min-width: 880px) {
+    .nav--wide,
+    .header__cta {
+      display: inline-flex;
+    }
+    .menu {
+      display: none;
+    }
+  }
+</style>

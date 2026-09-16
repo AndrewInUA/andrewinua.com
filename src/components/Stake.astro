@@ -1,0 +1,138 @@
+---
+import { keys, links } from '../data/site';
+---
+
+<section class="section section--deep" id="delegate">
+  <div class="container">
+    <div class="section-head">
+      <h2>Delegate to AndrewInUA</h2>
+      <p class="lede">You can delegate straight from your wallet — Phantom, Solflare, Backpack or any wallet that supports staking. Your SOL never leaves your wallet: delegation is protected at the protocol level, and you can undelegate at any time.</p>
+    </div>
+
+    <div class="stake">
+      <div class="stake__key">
+        <p class="stake__label">Search for <strong>AndrewInUA</strong> in your wallet, or paste the vote account:</p>
+        <div class="keybox">
+          <code id="vote-key">{keys.vote}</code>
+          <button type="button" class="button button--ghost copy" data-copy={keys.vote}>Copy</button>
+        </div>
+        <p class="stake__alt">Prefer a web interface? <a href={links.stakewiz} target="_blank" rel="noopener">Stake through Stakewiz</a>.</p>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <strong>Open staking in your wallet.</strong>
+          <span>Phantom, Solflare and Backpack all have a "Stake SOL" option; most other wallets do too.</span>
+        </li>
+        <li>
+          <strong>Choose this validator.</strong>
+          <span>Search for AndrewInUA, or paste the vote account above.</span>
+        </li>
+        <li>
+          <strong>Pick an amount and confirm.</strong>
+          <span>Your stake activates at the next epoch boundary and earns rewards every epoch after that. Undelegating takes about one epoch to cool down.</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('button.copy').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const text = btn.dataset.copy ?? '';
+      try {
+        await navigator.clipboard.writeText(text);
+        const original = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(() => (btn.textContent = original), 1800);
+      } catch {
+        const range = document.createRange();
+        const target = document.getElementById('vote-key');
+        if (target) {
+          range.selectNodeContents(target);
+          const sel = window.getSelection();
+          sel?.removeAllRanges();
+          sel?.addRange(range);
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .stake {
+    display: grid;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .stake__label {
+    color: var(--ink-2);
+    margin-bottom: 0.9rem;
+  }
+
+  .keybox {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    background: var(--navy-950);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+  }
+
+  .keybox code {
+    flex: 1 1 18rem;
+    font-size: 0.9rem;
+    word-break: break-all;
+    color: var(--gold-soft);
+  }
+
+  .keybox .copy {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  .stake__alt {
+    margin-top: 0.9rem;
+    font-size: 0.97rem;
+    color: var(--ink-3);
+  }
+
+  .steps {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: 1rem;
+    max-width: 34rem;
+  }
+
+  .steps li {
+    padding-left: 0.35rem;
+  }
+
+  .steps li::marker {
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+  }
+
+  .steps strong {
+    display: block;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .steps span {
+    color: var(--ink-2);
+  }
+
+  @media (min-width: 900px) {
+    .stake {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 4rem;
+    }
+  }
+</style>

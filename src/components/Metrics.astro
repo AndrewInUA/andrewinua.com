@@ -1,0 +1,301 @@
+---
+import { keys, links, facts, stakeSnapshot } from '../data/site';
+
+const rows = [
+  { key: 'stake', label: 'Active stake' },
+  { key: 'apy', label: 'Estimated APY' },
+  { key: 'wiz', label: 'Stakewiz score and rank' },
+  { key: 'skip', label: 'Skip rate' },
+  { key: 'voteSuccess', label: 'Vote success' },
+  { key: 'uptime', label: 'Uptime, 30 days' },
+  { key: 'version', label: 'Client version' },
+  { key: 'location', label: 'Location' },
+];
+
+const pct = (sol: number) => Math.round((sol / stakeSnapshot.totalSol) * 100);
+---
+
+<section class="section" id="metrics" data-state="loading">
+  <div class="container">
+    <div class="section-head">
+      <h2>Validator metrics</h2>
+      <p class="lede">The numbers behind the story. Live values come from public APIs and refresh a few times an hour; everything else on this page is dated so you always know how fresh it is.</p>
+    </div>
+
+    <div class="metrics">
+      <dl class="ledger">
+        <div class="ledger__row ledger__row--static">
+          <dt>Commission</dt>
+          <dd>{facts.commission} <span class="ledger__note">on staking rewards</span></dd>
+        </div>
+        <div class="ledger__row ledger__row--static">
+          <dt>MEV commission</dt>
+          <dd><span data-m="mev">{facts.mevCommission}</span> <span class="ledger__note">Jito</span></dd>
+        </div>
+        {rows.map((r) => (
+          <div class="ledger__row">
+            <dt>{r.label}</dt>
+            <dd data-m={r.key}>—</dd>
+          </div>
+        ))}
+      </dl>
+
+      <div class="metrics__aside">
+        <p class="status status--loading">Loading live numbers…</p>
+        <p class="status status--live">Live data from Stakewiz, epoch <span data-m="epoch"></span>, fetched <span data-m="updated"></span>.</p>
+        <p class="status status--error">Live numbers are temporarily unavailable. The same data is always public on Stakewiz.</p>
+
+        <p class="verify">Verify independently:</p>
+        <p class="verify__links">
+          <a href={links.stakewiz} target="_blank" rel="noopener">Stakewiz</a>
+          <a href={links.validatorsApp} target="_blank" rel="noopener">validators.app</a>
+        </p>
+        <p class="verify__keys">
+          <span class="muted">Vote account</span><br />
+          <code>{keys.vote}</code>
+        </p>
+        <p class="verify__keys">
+          <span class="muted">Identity</span><br />
+          <code>{keys.identity}</code>
+        </p>
+      </div>
+    </div>
+
+    {stakeSnapshot.show && (
+      <div class="snapshot">
+        <h3>Where the stake comes from</h3>
+        <p class="muted snapshot__meta">As of {stakeSnapshot.asOf}, epoch {stakeSnapshot.epoch}. About {Math.round(stakeSnapshot.totalSol / 1000)}K SOL in total, from on-chain stake accounts.</p>
+        <ul class="bars">
+          {stakeSnapshot.rows.map((r) => (
+            <li class="bar">
+              <span class="bar__label">{r.source}</span>
+              <span class="bar__track" aria-hidden="true"><span class="bar__fill" style={`width:${Math.max(pct(r.sol), 1)}%`}></span></span>
+              <span class="bar__value">{pct(r.sol)}%</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById('metrics');
+  if (section) {
+    const set = (key: string, value: string) => {
+      section.querySelectorAll<HTMLElement>(`[data-m="${key}"]`).forEach((n) => (n.textContent = value));
+    };
+    const num = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) ? v : null);
+    const pct = (v: unknown, digits = 2) => {
+      const n = num(v);
+      return n === null ? null : `${n.toFixed(digits)}%`;
+    };
+
+    fetch('/api/metrics.json', { headers: { accept: 'application/json' } })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((d) => {
+        const s = d.stakewiz;
+        if (!s) throw new Error('no stakewiz');
+
+        const stake = num(s.activatedStake);
+        if (stake !== null) set('stake', `${Math.round(stake).toLocaleString('en-US')} SOL`);
+
+        const apy = pct(s.apy);
+        if (apy) set('apy', apy);
+
+        const wiz = num(s.wizScore);
+        const rank = num(s.rank);
+        if (wiz !== null) set('wiz', rank !== null ? `${wiz.toFixed(1)}%, rank #${rank}` : `${wiz.toFixed(1)}%`);
+
+        const skip = pct(s.skipRate);
+        if (skip) set('skip', skip);
+
+        const vs = pct(s.voteSuccess, 1);
+        if (vs) set('voteSuccess', vs);
+
+        const up = pct(s.uptime, 2);
+        if (up) set('uptime', up);
+
+        if (typeof s.version === 'string' && s.version) set('version', s.version);
+
+        const loc = [s.city, s.country].filter(Boolean).join(', ');
+        if (loc) set('location', loc);
+
+        const mev = num(s.jitoCommissionBps);
+        if (mev !== null) set('mev', `${(mev / 100).toFixed(0)}%`);
+
+        const epoch = num(s.epoch);
+        if (epoch !== null) set('epoch', String(epoch));
+
+        if (d.updatedAt) {
+          const t = new Date(d.updatedAt);
+          set('updated', `${t.toUTCString().slice(17, 22)} UTC`);
+        }
+        section.dataset.state = 'live';
+      })
+      .catch(() => {
+        section.dataset.state = 'error';
+      });
+  }
+</script>
+
+<style>
+  .metrics {
+    display: grid;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .ledger {
+    margin: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .ledger__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ledger dt {
+    color: var(--ink-3);
+    font-size: 0.97rem;
+  }
+
+  .ledger dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.1;
+    color: var(--ink);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ledger__row--static dd {
+    color: var(--gold);
+  }
+
+  .ledger__note {
+    font-family: var(--font-text);
+    font-size: 0.85rem;
+    color: var(--ink-3);
+    margin-left: 0.35rem;
+  }
+
+  .status {
+    font-size: 0.95rem;
+    color: var(--ink-3);
+    margin-bottom: 1.5rem;
+    display: none;
+  }
+
+  [data-state='loading'] .status--loading,
+  [data-state='live'] .status--live,
+  [data-state='error'] .status--error {
+    display: block;
+  }
+
+  .verify {
+    margin: 0 0 0.35rem;
+    color: var(--ink-3);
+    font-size: 0.95rem;
+  }
+
+  .verify__links {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .verify__keys {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .verify__keys code {
+    font-size: 0.8rem;
+    word-break: break-all;
+    color: var(--ink-2);
+  }
+
+  @media (min-width: 900px) {
+    .metrics {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 4rem;
+    }
+  }
+
+  /* Stake snapshot */
+  .snapshot {
+    margin-top: clamp(3rem, 7vw, 5rem);
+    max-width: 48rem;
+  }
+
+  .snapshot h3 {
+    margin-bottom: 0.35rem;
+  }
+
+  .snapshot__meta {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .bars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 3rem;
+    grid-template-areas:
+      'label value'
+      'track track';
+    gap: 0.3rem 1rem;
+    align-items: center;
+    font-size: 0.97rem;
+  }
+
+  .bar__label {
+    grid-area: label;
+    color: var(--ink-2);
+  }
+
+  .bar__value {
+    grid-area: value;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+
+  .bar__track {
+    grid-area: track;
+    display: block;
+    height: 6px;
+    background: rgba(201, 209, 242, 0.12);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .bar__fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--violet));
+    border-radius: 3px;
+  }
+
+  @media (min-width: 640px) {
+    .bar {
+      grid-template-columns: 17rem minmax(0, 1fr) 3rem;
+      grid-template-areas: 'label track value';
+    }
+  }
+</style>
