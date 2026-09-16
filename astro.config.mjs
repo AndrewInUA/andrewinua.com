@@ -8,7 +8,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://andrewinua.com',
   output: 'static',
-  adapter: vercel(),
+  adapter: vercel({ maxDuration: 30 }),
   integrations: [sitemap()],
   build: { inlineStylesheets: 'auto' },
 });

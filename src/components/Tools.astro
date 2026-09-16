@@ -1,37 +1,56 @@
 ---
-import { projects } from '../data/site';
+import { projectGroups } from '../data/site';
 ---
 
 <section class="section section--deep" id="tools">
   <div class="container">
     <div class="section-head">
       <h2>Tools and projects</h2>
-      <p class="lede">I'm not a developer — but I believe in solving real problems. These are the tools and projects I've built for the Solana ecosystem and the Ukrainian community, mostly to answer questions I kept hearing from delegators and other operators.</p>
+      <p class="lede">I'm not a developer, but I believe in solving real problems. These are the tools and projects I've built for the Solana ecosystem and the Ukrainian community.</p>
     </div>
 
-    <ol class="projects">
-      {projects.map((p) => (
-        <li class="project">
-          <div class="project__head">
-            {p.icon && <img class="project__icon" src={p.icon} width="44" height="44" alt="" loading="lazy" />}
-            <div>
-              <h3>{p.name}</h3>
-              {p.tag && <p class="project__tag">{p.tag}</p>}
-            </div>
-          </div>
-          <p class="project__summary">{p.summary}</p>
-          <p class="project__links">
-            {p.links.map((l) => (
-              <a href={l.href} target="_blank" rel="noopener">{l.label}</a>
-            ))}
-          </p>
-        </li>
-      ))}
-    </ol>
+    {projectGroups.map((group) => (
+      <div class="group">
+        <h3 class="group__title">{group.title}</h3>
+        <ol class="projects">
+          {group.items.map((p) => (
+            <li class="project">
+              <div class="project__head">
+                {p.icon && <img class="project__icon" src={p.icon} width="44" height="44" alt="" loading="lazy" />}
+                <div>
+                  <p class="project__name">{p.name}</p>
+                  {p.tag && <p class="project__tag">{p.tag}</p>}
+                </div>
+              </div>
+              <p class="project__summary">{p.summary}</p>
+              <p class="project__links">
+                {p.links.map((l) => (
+                  <a href={l.href} target="_blank" rel="noopener">{l.label}</a>
+                ))}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))}
   </div>
 </section>
 
 <style>
+  .group + .group {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .group__title {
+    font-family: var(--font-text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.25rem;
+  }
+
   .projects {
     list-style: none;
     margin: 0;
@@ -42,7 +61,7 @@ import { projects } from '../data/site';
   .project {
     display: grid;
     gap: 0.75rem 3rem;
-    padding: 2rem 0;
+    padding: 1.75rem 0;
     border-bottom: 1px solid var(--line);
   }
 
@@ -55,6 +74,15 @@ import { projects } from '../data/site';
   .project__icon {
     flex: 0 0 auto;
     margin-top: 0.15rem;
+    border-radius: 10px;
+  }
+
+  .project__name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    line-height: 1.25;
+    color: var(--ink);
   }
 
   .project__tag {

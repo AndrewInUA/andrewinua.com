@@ -8,16 +8,16 @@ import { timeline } from '../data/site';
       <div class="story__text">
         <h2>My journey in Solana</h2>
         <p class="lede">I didn't join Solana as a developer. I joined as someone who believes in decentralization, in open communities, and in the power of values.</p>
-        <p>Before this I was a journalist and a communications specialist. I worked in media, telling real stories and connecting people. When the war in Ukraine began, I felt the need to build something meaningful — something resilient. That's how I discovered Solana.</p>
-        <p>Instead of hype and speculation, I found a place where infrastructure and purpose could meet. I started a testnet validator in March 2022, just weeks after the full-scale invasion began. I had no prior blockchain experience, but I kept going — learning, building, contributing.</p>
-        <p>The validator is still here, and so am I. Along the way it turned into more than a node: tools that explain validators and staking in plain language, an education hub in two languages, and a seat at the table with the people who build this network. This is how it happened, one date at a time.</p>
+        <p>Before this I was a journalist and a communications specialist. I worked in media, telling real stories and connecting people. When the war in Ukraine began, I felt the need to build something meaningful, something resilient. That's how I discovered Solana.</p>
+        <p>Instead of hype and speculation, I found a place where infrastructure and purpose could meet. I started a testnet validator in March 2022, just weeks after the full-scale invasion began. I had no prior blockchain experience, but I kept going: learning, building, contributing.</p>
+        <p>The validator is still running, and so am I. Along the way it became more than a node: tools that explain validators and staking in plain language, an education hub in English and Ukrainian, and a community I finally met in person in Belgrade. Here is how it went, one date at a time.</p>
       </div>
       <figure class="story__figure">
         <picture>
-          <source srcset="/images/andrii-solana-summit-2026-600.webp 600w, /images/andrii-solana-summit-2026.webp 1200w" sizes="(min-width: 900px) 380px, 90vw" type="image/webp" />
-          <img src="/images/andrii-solana-summit-2026.jpg" width="1200" height="1300" alt="Andrii standing in the main hall of Solana Summit Serbia in Belgrade, August 2026" loading="lazy" />
+          <source srcset="/images/andrii-solana-summit-2026-480.webp 480w, /images/andrii-solana-summit-2026.webp 1200w" sizes="(min-width: 900px) 360px, 90vw" type="image/webp" />
+          <img src="/images/andrii-solana-summit-2026.jpg" width="1200" height="1393" alt="Andrii in the main hall of Solana Summit Serbia in Belgrade, August 2026" loading="lazy" />
         </picture>
-        <figcaption>Solana Summit Serbia, Belgrade — my first Solana conference in person. August 2026.</figcaption>
+        <figcaption>Solana Summit Serbia, Belgrade, August 2026. My first Solana conference in person.</figcaption>
       </figure>
     </div>
 
@@ -27,15 +27,21 @@ import { timeline } from '../data/site';
           <h3 class="timeline__year-label">{group.year}</h3>
           <ol class="timeline__items">
             {group.items.map((m) => (
-              <li class="milestone">
-                <p class="milestone__date">{m.date}</p>
-                <p class="milestone__title">{m.title}</p>
-                {m.detail && <p class="milestone__detail">{m.detail}</p>}
-                {m.link && (
-                  <p class="milestone__link">
-                    <a href={m.link.href} target="_blank" rel="noopener">{m.link.label}</a>
-                  </p>
+              <li class:list={['milestone', { 'milestone--highlight': m.highlight, 'milestone--banner': m.image?.kind === 'banner' }]}>
+                {m.image && m.image.kind !== 'banner' && (
+                  <img class:list={['milestone__img', `milestone__img--${m.image.kind ?? 'logo'}`]} src={m.image.src} alt={m.image.alt} loading="lazy" />
                 )}
+                <div class="milestone__body">
+                  {m.image && m.image.kind === 'banner' && <img class="milestone__banner" src={m.image.src} alt={m.image.alt} width="1200" height="400" loading="lazy" />}
+                  <p class="milestone__date">{m.date}</p>
+                  <p class="milestone__title">{m.title}</p>
+                  {m.detail && <p class="milestone__detail">{m.detail}</p>}
+                  {m.link && (
+                    <p class="milestone__link">
+                      <a href={m.link.href} target="_blank" rel="noopener">{m.link.label}</a>
+                    </p>
+                  )}
+                </div>
               </li>
             ))}
           </ol>
@@ -71,13 +77,13 @@ import { timeline } from '../data/site';
 
   .story__figure {
     margin: 0;
-    max-width: 380px;
+    max-width: 360px;
   }
 
   .story__figure img {
     width: 100%;
     border-radius: var(--radius);
-    aspect-ratio: 12 / 13;
+    aspect-ratio: 1200 / 1393;
     object-fit: cover;
   }
 
@@ -90,7 +96,10 @@ import { timeline } from '../data/site';
 
   @media (min-width: 900px) {
     .story {
-      grid-template-columns: minmax(0, 1fr) 380px;
+      grid-template-columns: minmax(0, 1fr) 360px;
+    }
+    .story__figure {
+      padding-top: 0.6rem;
     }
   }
 
@@ -151,6 +160,79 @@ import { timeline } from '../data/site';
 
   .milestone {
     max-width: var(--measure);
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .milestone__img--logo {
+    flex: 0 0 72px;
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    object-fit: contain;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .milestone__img--square {
+    flex: 0 0 72px;
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  .milestone__img--photo {
+    flex: 0 0 160px;
+    width: 160px;
+    height: 104px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .milestone__banner {
+    width: 100%;
+    max-width: 34rem;
+    aspect-ratio: 3 / 1;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 0.9rem;
+  }
+
+  .milestone--highlight {
+    max-width: var(--measure);
+    padding: 1.25rem 1.25rem 1.35rem;
+    border: 1px solid rgba(249, 203, 32, 0.45);
+    border-radius: 12px;
+    background: rgba(249, 203, 32, 0.05);
+  }
+
+  .milestone--highlight .milestone__date {
+    color: var(--gold);
+  }
+
+  .milestone--highlight .milestone__img--logo,
+  .milestone--highlight .milestone__img--square {
+    flex-basis: 96px;
+    width: 96px;
+    height: 96px;
+  }
+
+  @media (max-width: 600px) {
+    .milestone__img--square {
+    flex: 0 0 72px;
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  .milestone__img--photo {
+      flex-basis: 96px;
+      width: 96px;
+      height: 96px;
+    }
   }
 
   .milestone p {

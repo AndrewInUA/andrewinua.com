@@ -1,12 +1,13 @@
 ---
-import { keys, links } from '../data/site';
+import { keys, links, backgrounds } from '../data/site';
+const bg = backgrounds.delegate ? `--bg: url('${backgrounds.delegate}')` : undefined;
 ---
 
-<section class="section section--deep" id="delegate">
-  <div class="container">
+<section class:list={['section', 'section--deep', 'delegate', { 'delegate--photo': bg }]} id="delegate" style={bg}>
+  <div class="container delegate__inner">
     <div class="section-head">
       <h2>Delegate to AndrewInUA</h2>
-      <p class="lede">You can delegate straight from your wallet — Phantom, Solflare, Backpack or any wallet that supports staking. Your SOL never leaves your wallet: delegation is protected at the protocol level, and you can undelegate at any time.</p>
+      <p class="lede">You can delegate straight from your wallet: Phantom, Solflare, Backpack or any wallet that supports staking. Your SOL never leaves your wallet, delegation is protected at the protocol level, and you can undelegate at any time.</p>
     </div>
 
     <div class="stake">
@@ -61,6 +62,26 @@ import { keys, links } from '../data/site';
 </script>
 
 <style>
+  /* Optional faint photo behind the section, set via backgrounds.delegate in site.ts */
+  .delegate {
+    position: relative;
+  }
+
+  .delegate--photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bg) center / cover no-repeat;
+    opacity: 0.12;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+    pointer-events: none;
+  }
+
+  .delegate__inner {
+    position: relative;
+  }
+
   .stake {
     display: grid;
     gap: 2.5rem;

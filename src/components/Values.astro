@@ -2,7 +2,7 @@
 const values = [
   {
     title: 'Humanitarian support',
-    text: "A portion of this validator's income goes to help people displaced or affected by war — because I've seen what real need looks like.",
+    text: "A portion of this validator's income goes to help people displaced or affected by war, because I've seen what real need looks like.",
   },
   {
     title: 'Transparency',
@@ -10,7 +10,7 @@ const values = [
   },
   {
     title: 'Community first',
-    text: "Being part of Solana means lifting others up. I share what I learn, build what I can, and help where it's needed — especially in Ukraine.",
+    text: "Being part of Solana means lifting others up. I share what I learn, build what I can, and help where it's needed, especially in Ukraine.",
   },
 ];
 ---
@@ -19,7 +19,7 @@ const values = [
   <div class="container">
     <div class="section-head">
       <h2>What I stand for</h2>
-      <p class="lede">These values are not theoretical. I've lived through chaos, through uncertainty, and through war. That's why I care deeply about transparency, people, and building things that matter. This validator is my way of putting that into action — every single day.</p>
+      <p class="lede">These values are not theoretical. I've lived through chaos, through uncertainty, and through war. That's why I care deeply about transparency, people, and building things that matter. This validator is my way of putting that into action, every single day.</p>
     </div>
 
     <div class="values">
@@ -53,7 +53,8 @@ const values = [
 
   .value p {
     color: var(--ink-2);
-    max-width: 34rem;
+    font-size: 1rem;
+    text-wrap: pretty;
   }
 
   .creed {
@@ -63,13 +64,13 @@ const values = [
     font-size: clamp(1.4rem, 2.6vw, 1.9rem);
     line-height: 1.35;
     color: var(--ink);
-    max-width: 30ch;
+    max-width: 46ch;
   }
 
   @media (min-width: 760px) {
     .values {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 2.5rem;
+      gap: 2rem;
     }
   }
 </style>

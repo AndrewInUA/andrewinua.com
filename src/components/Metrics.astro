@@ -1,5 +1,6 @@
 ---
 import { keys, links, facts, stakeSnapshot } from '../data/site';
+import Icon from './Icon.astro';
 
 const rows = [
   { key: 'stake', label: 'Active stake' },
@@ -12,43 +13,47 @@ const rows = [
   { key: 'location', label: 'Location' },
 ];
 
-const pct = (sol: number) => Math.round((sol / stakeSnapshot.totalSol) * 100);
+const pct = (sol: number) => {
+  const v = (sol / stakeSnapshot.totalSol) * 100;
+  return v < 1 ? '<1%' : `${Math.round(v)}%`;
+};
+const width = (sol: number) => Math.max((sol / stakeSnapshot.totalSol) * 100, 1);
 ---
 
 <section class="section" id="metrics" data-state="loading">
   <div class="container">
     <div class="section-head">
       <h2>Validator metrics</h2>
-      <p class="lede">The numbers behind the story. Live values come from public APIs and refresh a few times an hour; everything else on this page is dated so you always know how fresh it is.</p>
+      <p class="lede">Live values come from Stakewiz and refresh a few times an hour. Static numbers on this page carry the date they were taken.</p>
     </div>
 
     <div class="metrics">
       <dl class="ledger">
         <div class="ledger__row ledger__row--static">
-          <dt>Commission</dt>
-          <dd>{facts.commission} <span class="ledger__note">on staking rewards</span></dd>
+          <dt>Commission on staking rewards</dt>
+          <dd>{facts.commission}</dd>
         </div>
         <div class="ledger__row ledger__row--static">
-          <dt>MEV commission</dt>
-          <dd><span data-m="mev">{facts.mevCommission}</span> <span class="ledger__note">Jito</span></dd>
+          <dt>MEV commission (Jito)</dt>
+          <dd data-m="mev">{facts.mevCommission}</dd>
         </div>
         {rows.map((r) => (
           <div class="ledger__row">
             <dt>{r.label}</dt>
-            <dd data-m={r.key}>—</dd>
+            <dd data-m={r.key}>...</dd>
           </div>
         ))}
       </dl>
 
       <div class="metrics__aside">
-        <p class="status status--loading">Loading live numbers…</p>
+        <p class="status status--loading">Loading live numbers...</p>
         <p class="status status--live">Live data from Stakewiz, epoch <span data-m="epoch"></span>, fetched <span data-m="updated"></span>.</p>
         <p class="status status--error">Live numbers are temporarily unavailable. The same data is always public on Stakewiz.</p>
 
         <p class="verify">Verify independently:</p>
         <p class="verify__links">
-          <a href={links.stakewiz} target="_blank" rel="noopener">Stakewiz</a>
-          <a href={links.validatorsApp} target="_blank" rel="noopener">validators.app</a>
+          <a href={links.stakewiz} target="_blank" rel="noopener"><Icon name="stakewiz" /> Stakewiz</a>
+          <a href={links.validatorsApp} target="_blank" rel="noopener"><Icon name="validators-app" /> validators.app</a>
         </p>
         <p class="verify__keys">
           <span class="muted">Vote account</span><br />
@@ -62,15 +67,15 @@ const pct = (sol: number) => Math.round((sol / stakeSnapshot.totalSol) * 100);
     </div>
 
     {stakeSnapshot.show && (
-      <div class="snapshot">
+      <div class="snapshot" data-live={stakeSnapshot.live ? 'true' : undefined}>
         <h3>Where the stake comes from</h3>
-        <p class="muted snapshot__meta">As of {stakeSnapshot.asOf}, epoch {stakeSnapshot.epoch}. About {Math.round(stakeSnapshot.totalSol / 1000)}K SOL in total, from on-chain stake accounts.</p>
-        <ul class="bars">
+        <p class="muted snapshot__meta">As of <span data-s="asOf">{stakeSnapshot.asOf}</span>, epoch <span data-s="epoch">{stakeSnapshot.epoch}</span>. About <span data-s="total">{Math.round(stakeSnapshot.totalSol / 1000)}K</span> SOL in total, from on-chain stake accounts.</p>
+        <ul class="bars" data-s="rows">
           {stakeSnapshot.rows.map((r) => (
             <li class="bar">
               <span class="bar__label">{r.source}</span>
-              <span class="bar__track" aria-hidden="true"><span class="bar__fill" style={`width:${Math.max(pct(r.sol), 1)}%`}></span></span>
-              <span class="bar__value">{pct(r.sol)}%</span>
+              <span class="bar__track" aria-hidden="true"><span class="bar__fill" style={`width:${width(r.sol)}%`}></span></span>
+              <span class="bar__value">{pct(r.sol)}</span>
             </li>
           ))}
         </ul>
@@ -136,6 +141,36 @@ const pct = (sol: number) => Math.round((sol / stakeSnapshot.totalSol) * 100);
       .catch(() => {
         section.dataset.state = 'error';
       });
+
+    // Stake composition: replace the static rows with the latest per-epoch analysis when available.
+    const snap = section.querySelector<HTMLElement>('.snapshot[data-live]');
+    if (snap) {
+      fetch('/api/stake.json', { headers: { accept: 'application/json' } })
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+        .then((d) => {
+          if (!d || !Array.isArray(d.rows) || !d.rows.length) return;
+          const list = snap.querySelector<HTMLElement>('[data-s="rows"]');
+          const template = list?.querySelector<HTMLElement>('.bar');
+          if (!list || !template) return;
+          const blank = template.cloneNode(true) as HTMLElement; // keeps Astro's scoped-style attributes
+          list.innerHTML = '';
+          for (const r of d.rows) {
+            const li = blank.cloneNode(true) as HTMLElement;
+            const label = li.querySelector<HTMLElement>('.bar__label');
+            const fill = li.querySelector<HTMLElement>('.bar__fill');
+            const value = li.querySelector<HTMLElement>('.bar__value');
+            if (label) label.textContent = r.label;
+            if (fill) fill.style.width = `${Math.max(r.percent, 1)}%`;
+            if (value) value.textContent = r.percent < 1 ? '<1%' : `${Math.round(r.percent)}%`;
+            list.appendChild(li);
+          }
+          const set = (k: string, v: string) => { const n = snap.querySelector<HTMLElement>(`[data-s="${k}"]`); if (n) n.textContent = v; };
+          if (d.asOf) set('asOf', d.asOf);
+          if (d.epoch) set('epoch', String(d.epoch));
+          if (d.totalSol) set('total', `${Math.round(d.totalSol / 1000)}K`);
+        })
+        .catch(() => {});
+    }
   }
 </script>
 
@@ -179,13 +214,6 @@ const pct = (sol: number) => Math.round((sol / stakeSnapshot.totalSol) * 100);
     color: var(--gold);
   }
 
-  .ledger__note {
-    font-family: var(--font-text);
-    font-size: 0.85rem;
-    color: var(--ink-3);
-    margin-left: 0.35rem;
-  }
-
   .status {
     font-size: 0.95rem;
     color: var(--ink-3);
@@ -207,9 +235,16 @@ const pct = (sol: number) => Math.round((sol / stakeSnapshot.totalSol) * 100);
 
   .verify__links {
     display: flex;
-    gap: 1.25rem;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
     margin-bottom: 1.5rem;
     font-weight: 500;
+  }
+
+  .verify__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
   }
 
   .verify__keys {

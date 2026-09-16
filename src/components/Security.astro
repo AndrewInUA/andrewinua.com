@@ -1,8 +1,9 @@
 ---
 import { facts, links } from '../data/site';
+import Icon from './Icon.astro';
 
 const infrastructure = [
-  `${facts.hosting} that is kept in sync and can take over if the main one fails.`,
+  `${facts.hosting} that can take over if the main one fails.`,
   'The mainnet node runs on the DoubleZero network and the Jito BAM block engine.',
   'A separate testnet node, maintained as the Solana Foundation Delegation Program requires.',
   'Separate wallet and signer setup for key security; hardened SSH access and port isolation.',
@@ -12,7 +13,7 @@ const infrastructure = [
 const transparency = [
   `${facts.commission} commission and ${facts.mevCommission} MEV commission, since day one on mainnet.`,
   `In the Solana Foundation Delegation Program since ${facts.mainnetSince}, with its ongoing performance requirements.`,
-  'Full performance history is public on Stakewiz and validators.app — nothing on this site is the only source.',
+  'Full performance history is public on Stakewiz and validators.app. Nothing on this site is the only source.',
   'The monitoring and validator tools I use are open source on GitHub.',
 ];
 ---
@@ -21,7 +22,7 @@ const transparency = [
   <div class="container">
     <div class="section-head">
       <h2>Security and transparency</h2>
-      <p class="lede">I'm Andrii, the person behind AndrewInUA. This validator isn't run by a faceless brand — it's operated with care and technical responsibility, and I believe transparency isn't optional. It's essential.</p>
+      <p class="lede">I'm Andrii, the person behind AndrewInUA. This validator isn't run by a faceless brand. It's operated with care and technical responsibility, and I believe transparency isn't optional. It's essential.</p>
     </div>
 
     <div class="columns">
@@ -37,20 +38,20 @@ const transparency = [
           {transparency.map((t) => <li>{t}</li>)}
         </ul>
         <p class="links">
-          <a href={links.stakewiz} target="_blank" rel="noopener">Stakewiz</a>
-          <a href={links.validatorsApp} target="_blank" rel="noopener">validators.app</a>
-          <a href={links.github} target="_blank" rel="noopener">GitHub</a>
+          <a href={links.stakewiz} target="_blank" rel="noopener"><Icon name="stakewiz" /> Stakewiz</a>
+          <a href={links.validatorsApp} target="_blank" rel="noopener"><Icon name="validators-app" /> validators.app</a>
+          <a href={links.github} target="_blank" rel="noopener"><Icon name="github" /> GitHub</a>
         </p>
       </div>
     </div>
 
     <div class="why">
       <h3>Why it matters</h3>
-      <p>When you stake SOL, your tokens never leave your wallet — they remain yours, protected by the protocol. What you choose is who keeps the network running with your stake. This node is run to stay online, vote reliably and skip nothing, and to give you an honest picture of how it does.</p>
+      <p>When you stake SOL, your tokens never leave your wallet. They remain yours, protected by the protocol. What you choose is who keeps the network running with your stake. This node is run to stay online, vote reliably and skip nothing, and to give you an honest picture of how it does.</p>
     </div>
 
     <blockquote class="quote">
-      <p>"This node was online during blackouts and air raid alarms. Because I believe decentralization matters — especially when it's hard."</p>
+      <p>"This node was online during blackouts and air raid alarms. Because I believe decentralization matters, especially when it's hard."</p>
       <footer>Andrii, AndrewInUA</footer>
     </blockquote>
   </div>
@@ -84,8 +85,15 @@ const transparency = [
   .links {
     margin-top: 1.25rem;
     display: flex;
-    gap: 1.25rem;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
     font-weight: 500;
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
   }
 
   .why {

@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "version": "2.0.0",
-  "description": "Website of AndrewInUA — an independent Solana validator from Ukraine.",
+  "description": "Website of AndrewInUA, an independent Solana validator from Ukraine.",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -16,7 +16,8 @@
     "@fontsource-variable/newsreader": "^5.2.0",
     "@fontsource/ibm-plex-mono": "^5.2.0",
     "@fontsource/ibm-plex-sans": "^5.2.0",
-    "astro": "^5.13.0"
+    "astro": "^5.13.0",
+    "simple-icons": "^16.31.0"
   },
   "engines": {
     "node": ">=20"

@@ -1,0 +1,39 @@
+---
+// Brand marks come from the simple-icons package (CC0). LinkedIn, Colosseum and
+// Superteam are not in that set, so they get a neutral link glyph; email gets an envelope.
+import { siX, siTelegram, siGithub } from 'simple-icons';
+
+// Logos that only exist as bitmaps are rendered as CSS masks (white-on-transparent PNGs in
+// public/images/icons/), so they take the text colour like the SVG icons do.
+interface Props {
+  name: 'x' | 'telegram' | 'github' | 'email' | 'link' | 'linkedin' | 'colosseum' | 'superteam-earn' | 'stakewiz' | 'validators-app';
+  size?: number;
+}
+const { name, size = 18 } = Astro.props;
+const masks = ['linkedin', 'colosseum', 'superteam-earn', 'stakewiz', 'validators-app'];
+
+const brand: Record<string, string> = { x: siX.path, telegram: siTelegram.path, github: siGithub.path };
+const generic: Record<string, string> = {
+  email:
+    'M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2.4V17h16V7.4l-8 5.3-8-5.3zM4.9 7l7.1 4.7L19.1 7H4.9z',
+  link:
+    'M10.6 13.4a1 1 0 0 1 0-1.4l4.2-4.2a1 1 0 1 1 1.4 1.4L12 13.4a1 1 0 0 1-1.4 0zm-2.8 2.8a3 3 0 0 0 4.2 0l1.4-1.4 1.4 1.4-1.4 1.4a5 5 0 0 1-7-7l1.4-1.4 1.4 1.4-1.4 1.4a3 3 0 0 0 0 4.2zm8.4-8.4a3 3 0 0 0-4.2 0L10.6 9.2 9.2 7.8l1.4-1.4a5 5 0 0 1 7 7l-1.4 1.4-1.4-1.4 1.4-1.4a3 3 0 0 0 0-4.2z',
+};
+const d = brand[name] ?? generic[name] ?? generic.link;
+---
+
+{masks.includes(name) ? (
+  <span class="mask" style={`--m:url('/images/icons/${name}.png');width:${size}px;height:${size}px`} aria-hidden="true"></span>
+) : (
+  <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d={d}></path></svg>
+)}
+
+<style>
+  .mask {
+    display: inline-block;
+    flex: 0 0 auto;
+    background-color: currentColor;
+    -webkit-mask: var(--m) center / contain no-repeat;
+    mask: var(--m) center / contain no-repeat;
+  }
+</style>

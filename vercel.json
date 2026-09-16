@@ -2,16 +2,42 @@
   "headers": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": ".*\\.vercel\\.app" }],
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      "has": [
+        {
+          "type": "host",
+          "value": ".*\\.vercel\\.app"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
     },
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/validator-metrics-widget-demo",
+      "destination": "https://github.com/AndrewInUA/solana-validator-metrics-html-widget",
+      "permanent": false
     }
   ]
 }

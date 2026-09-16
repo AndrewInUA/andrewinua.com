@@ -1,15 +1,16 @@
 ---
 import { site, links, keys } from '../data/site';
+import Icon from './Icon.astro';
 
 const contacts = [
-  { href: links.x, label: 'X (Twitter)', handle: '@Andrew_In_UA' },
-  { href: links.telegram, label: 'Telegram', handle: '@AndrewInUA' },
-  { href: links.github, label: 'GitHub', handle: 'AndrewInUA' },
-  { href: `mailto:${site.email}`, label: 'Email', handle: site.email },
-  { href: links.linkedin, label: 'LinkedIn', handle: 'Andrii Vasyliuk' },
-  { href: links.colosseum, label: 'Colosseum', handle: 'AndrewInUA' },
-  { href: links.superteamEarn, label: 'Superteam Earn', handle: 'AndrewInUA' },
-];
+  { href: links.x, label: 'X (Twitter)', handle: '@Andrew_In_UA', icon: 'x' },
+  { href: links.telegram, label: 'Telegram', handle: '@AndrewInUA', icon: 'telegram' },
+  { href: links.github, label: 'GitHub', handle: 'AndrewInUA', icon: 'github' },
+  { href: `mailto:${site.email}`, label: 'Email', handle: site.email, icon: 'email' },
+  { href: links.linkedin, label: 'LinkedIn', handle: 'Andrii', icon: 'linkedin' },
+  { href: links.colosseum, label: 'Colosseum', handle: 'AndrewInUA', icon: 'colosseum' },
+  { href: links.superteamEarn, label: 'Superteam Earn', handle: 'AndrewInUA', icon: 'superteam-earn' },
+] as const;
 
 const year = new Date().getFullYear();
 ---
@@ -22,7 +23,7 @@ const year = new Date().getFullYear();
           <img src="/images/logo-160.png" width="48" height="48" alt="" />
           <span>{site.name}</span>
         </a>
-        <p>An independent Solana validator from Ukraine, dedicated to decentralization and values. Say hello — questions about staking are always welcome.</p>
+        <p>An independent Solana validator from Ukraine, dedicated to decentralization and values. Say hello. Questions about staking are always welcome.</p>
       </div>
 
       <div>
@@ -30,21 +31,20 @@ const year = new Date().getFullYear();
         <ul class="contacts">
           {contacts.map((c) => (
             <li>
-              <span class="contacts__label">{c.label}</span>
+              <span class="contacts__label"><Icon name={c.icon} /> {c.label}</span>
               <a href={c.href} target={c.href.startsWith('mailto:') ? undefined : '_blank'} rel="noopener">{c.handle}</a>
             </li>
           ))}
         </ul>
       </div>
-
-      <div>
-        <h3 class="footer__title">Validator</h3>
-        <p class="footer__key"><span class="muted">Vote account</span><br /><code>{keys.vote}</code></p>
-        <p class="footer__key"><span class="muted">Identity</span><br /><code>{keys.identity}</code></p>
-      </div>
     </div>
 
-    <p class="footer__legal">© {year} {site.name}. Staking involves risk; nothing on this site is financial advice.</p>
+    <div class="footer__keys">
+      <p><span class="muted">Vote account</span> <code>{keys.vote}</code></p>
+      <p><span class="muted">Identity</span> <code>{keys.identity}</code></p>
+    </div>
+
+    <p class="footer__legal">&copy; {year} {site.name}</p>
   </div>
 </footer>
 
@@ -57,7 +57,7 @@ const year = new Date().getFullYear();
   .footer__grid {
     display: grid;
     gap: 2.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
   }
 
   .footer__brand {
@@ -93,46 +93,81 @@ const year = new Date().getFullYear();
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.45rem;
+    gap: 0.55rem;
   }
 
   .contacts li {
     display: grid;
-    grid-template-columns: 7.5rem minmax(0, 1fr);
+    grid-template-columns: 9.5rem minmax(0, 1fr);
     gap: 0.5rem;
     font-size: 0.97rem;
+    align-items: center;
   }
 
   .contacts__label {
     color: var(--ink-3);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .contacts__label :global(svg),
+  .contacts__label :global(.mask) {
+    color: var(--teal);
+    flex: 0 0 auto;
   }
 
   .contacts a {
-    word-break: break-all;
+    white-space: nowrap;
   }
 
-  .footer__key {
+  .footer__keys {
+    display: grid;
+    gap: 0.4rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--line);
     font-size: 0.9rem;
-    margin-bottom: 1rem;
   }
 
-  .footer__key code {
-    font-size: 0.8rem;
-    word-break: break-all;
+  .footer__keys p {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+  }
+
+  .footer__keys .muted {
+    min-width: 7rem;
+  }
+
+  .footer__keys code {
+    font-size: 0.82rem;
     color: var(--ink-2);
+    overflow-wrap: anywhere;
   }
 
   .footer__legal {
     color: var(--ink-3);
     font-size: 0.9rem;
-    padding-top: 1.5rem;
+    padding-top: 1.25rem;
     border-top: 1px solid var(--line);
   }
 
-  @media (min-width: 860px) {
+  @media (min-width: 760px) {
     .footer__grid {
-      grid-template-columns: 1.2fr 1fr 1fr;
+      grid-template-columns: 1.1fr 1fr;
       gap: 3rem;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .contacts li {
+      grid-template-columns: 1fr;
+      gap: 0.1rem;
+    }
+    .contacts a {
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
   }
 </style>
