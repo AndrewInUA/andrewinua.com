@@ -8,7 +8,7 @@ import '@fontsource/ibm-plex-mono/400.css';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import { site, links } from '../data/site';
+import { site, links, keys, projectGroups, analytics } from '../data/site';
 
 interface Props {
   title?: string;
@@ -19,16 +19,52 @@ const { title = site.title, description = site.description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL('/og.png', Astro.site).href;
 
+const projectsList = projectGroups.flatMap((g) => g.items);
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: site.person,
-  alternateName: site.name,
-  url: site.url,
-  image: new URL('/images/logo.png', Astro.site).href,
-  jobTitle: 'Solana validator operator',
-  description,
-  sameAs: [links.x, links.github, links.telegram],
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${site.url}/#website`,
+      url: site.url,
+      name: site.name,
+      description,
+      inLanguage: 'en',
+      publisher: { '@id': `${site.url}/#person` },
+    },
+    {
+      '@type': 'Person',
+      '@id': `${site.url}/#person`,
+      name: site.person,
+      alternateName: site.name,
+      url: site.url,
+      image: new URL('/images/logo.png', Astro.site).href,
+      jobTitle: 'Solana validator operator',
+      nationality: 'Ukrainian',
+      description:
+        'Operator of the AndrewInUA Solana validator (mainnet since 16 August 2023, testnet since March 2022): 0% commission, 0% MEV commission, Solana Foundation Delegation Program participant. Former journalist and communications specialist; builds plain-language tools for Solana delegators.',
+      knowsAbout: ['Solana', 'Solana staking', 'Solana validators', 'Stake delegation', 'Ukrainian Solana community'],
+      sameAs: [links.x, links.github, links.telegram, links.linkedin, links.colosseum, links.osh],
+    },
+    {
+      '@type': 'ItemList',
+      '@id': `${site.url}/#projects`,
+      name: 'Tools and projects by AndrewInUA',
+      itemListElement: projectsList.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: { '@type': 'SoftwareApplication', name: p.name, description: p.summary, url: p.links[0]?.href, applicationCategory: 'Solana staking tool' },
+      })),
+    },
+    {
+      '@type': 'Dataset',
+      '@id': `${site.url}/#validator`,
+      name: 'AndrewInUA validator identifiers',
+      description: `Solana mainnet validator AndrewInUA. Vote account ${keys.vote}. Identity ${keys.identity}. Live metrics at ${site.url}/api/metrics.json.`,
+      url: `${site.url}/#metrics`,
+      creator: { '@id': `${site.url}/#person` },
+    },
+  ],
 };
 ---
 
@@ -61,8 +97,22 @@ const jsonLd = {
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="Plain-text summary for AI assistants" />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {analytics.plausible.domain && (
+      <script is:inline define:vars={{ domain: analytics.plausible.domain, src: analytics.plausible.script }}>
+        if (location.hostname === domain || location.hostname === 'www.' + domain) {
+          window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+          window.plausible.init = window.plausible.init || function (i) { window.plausible.o = i || {}; };
+          window.plausible.init();
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = src;
+          document.head.appendChild(s);
+        }
+      </script>
+    )}
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

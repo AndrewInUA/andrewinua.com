@@ -6,9 +6,9 @@ export const site = {
   name: 'AndrewInUA',
   person: 'Andrii',
   url: 'https://andrewinua.com',
-  title: 'AndrewInUA: independent Solana validator from Ukraine',
+  title: 'AndrewInUA: independent Solana validator from Ukraine. Stake SOL with 0% commission',
   description:
-    "I'm Andrii, running the AndrewInUA Solana validator since March 2022: 0% commission, 0% MEV commission, in the Solana Foundation Delegation Program, and building plain-language tools for delegators.",
+    'Stake SOL with AndrewInUA, an independent Solana validator from Ukraine: 0% commission, 0% MEV commission, in the Solana Foundation Delegation Program since 2023. Reliable staking with public, verifiable performance and plain-language tools for delegators.',
   email: 'andrewkyivzpua@gmail.com',
 };
 
@@ -28,6 +28,12 @@ export const links = {
   validatorsApp: `https://www.validators.app/validators/${keys.identity}?locale=en&network=mainnet`,
   osh: 'https://www.opensolanahub.com',
   summitArticle: 'https://www.opensolanahub.com/news/solana-summit-serbia-first-time.html',
+};
+
+// Analytics (Plausible, script installation). Leave the domain empty to disable. The script is
+// only loaded when the page is served from that domain, so staging and local previews never count.
+export const analytics = {
+  plausible: { domain: 'andrewinua.com', script: 'https://plausible.io/js/pa-oRR-2uT60vN145iIg3K98.js' },
 };
 
 // Optional background photos. Leave a value empty to render a plain section.
@@ -63,7 +69,7 @@ export const timeline: { year: string; items: Milestone[] }[] = [
       {
         date: 'March 2022',
         title: 'Launched a testnet validator',
-        detail: 'Weeks after the full-scale invasion began, with no blockchain background and a lot to learn.',
+        detail: "Weeks after russia's full-scale invasion of Ukraine began, with no blockchain background and a lot to learn.",
         image: { src: '/images/timeline/andrewinua.png', alt: 'AndrewInUA logo' },
       },
       {
@@ -168,6 +174,7 @@ export const timeline: { year: string; items: Milestone[] }[] = [
         date: 'June 2026',
         title: 'Launched Open Solana Hub',
         detail: 'Solana explained in plain English and Ukrainian, with the dashboard built in. The news section followed in July.',
+        image: { src: '/images/timeline/open-solana-hub.png', alt: 'Open Solana Hub logo' },
       },
       {
         date: 'August 2026',
@@ -233,8 +240,9 @@ export const projectGroups: ProjectGroup[] = [
       },
       {
         name: 'Open Solana Hub',
+        icon: '/images/open-solana-hub.png',
         summary:
-          'Solana explained in plain English and Ukrainian, with a news section and the dashboard built in. A two-way bridge: the ecosystem for Ukrainian readers, and Ukrainian builders for the rest of the world.',
+          'Solana explained in plain English and Ukrainian, with a news section and the dashboard built in. Open to anyone who wants to understand how the network works before they stake.',
         links: [{ href: links.osh, label: 'opensolanahub.com' }],
       },
     ],

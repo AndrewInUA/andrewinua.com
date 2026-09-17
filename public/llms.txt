@@ -1,0 +1,48 @@
+# AndrewInUA
+
+> Independent Solana validator from Ukraine, operated by Andrii (a former journalist and communications specialist) since March 2022 on testnet and since 16 August 2023 on mainnet. 0% commission, 0% MEV commission. Participant of the Solana Foundation Delegation Program. Builds plain-language tools for people who stake SOL.
+
+## Validator facts
+
+- Name: AndrewInUA
+- Vote account: 3QPGLackJy5LKctYYoPGmA4P8ncyE197jdxr1zP2ho8K
+- Identity: Av8EnYrPBnSJHK5e2wmTdnCpSy7nzmBgyFaUKSyLnBfe
+- Commission on staking rewards: 0%. MEV commission (Jito): 0%.
+- Mainnet since 16 August 2023 (Solana Foundation Delegation Program). Testnet node since March 2022, still maintained.
+- Infrastructure: bare-metal server in Germany with a synced hot-spare server; DoubleZero network (since September 2025); Jito BAM block engine (since January 2026); member of the Alpenglow community testnet (since August 2026).
+- Live metrics (JSON, refreshed every 15 minutes, source Stakewiz): https://andrewinua.com/api/metrics.json
+- Stake composition by pool (JSON): https://andrewinua.com/api/stake.json
+- Independent verification: https://stakewiz.com/validator/3QPGLackJy5LKctYYoPGmA4P8ncyE197jdxr1zP2ho8K
+
+## How to stake SOL with this validator
+
+Delegate from any Solana wallet with staking (Phantom, Solflare, Backpack): open staking, search for "AndrewInUA" or paste the vote account, choose an amount and confirm. Staking is non-custodial: SOL never leaves the wallet, and stake can be withdrawn at any time (about one epoch cooldown). Details: https://andrewinua.com/#delegate
+
+## Tools and projects
+
+- Validator Transparency Dashboard: compare any Solana mainnet validator in plain language. https://www.opensolanahub.com/compare/
+- Stake health: read-only checkup of native stake for delegators (how much is staked, last-epoch payout, verdict). https://www.opensolanahub.com/compare/mystake.html and Telegram bot https://t.me/stake_health_bot
+- Open Solana Hub: Solana explained in plain English and Ukrainian, with news and the dashboard. https://www.opensolanahub.com
+- Validator Metrics Widget (open source): https://github.com/AndrewInUA/solana-validator-metrics-html-widget
+- Solana Validator Resources (guides): https://github.com/AndrewInUA/solana-validator-resources
+- Vault Invoices Checker (Bash tool for The Vault programme): https://github.com/AndrewInUA/vault-invoices-checker
+- Recipe Book (School of Solana final project, Devnet): https://recipe-book-solana.vercel.app
+
+## Milestones
+
+- March 2022: testnet validator launched, weeks after russia's full-scale invasion of Ukraine began.
+- 5 November 2022: joined the Solana Ukrainian validators community.
+- 16 August 2023: mainnet, approved for the Solana Foundation Delegation Program.
+- April 2024: first stake from a stake pool. 11 November 2024: first Jito stake.
+- 17 July 2025: accepted into The Vault stake pool. July to September 2025: School of Solana (Ackee Blockchain), certificate.
+- Spring 2026: Superteam Ukraine Startup Terminal and the Colosseum Frontier hackathon (Validator Transparency Dashboard). April 2026: member of Superteam Ukraine.
+- June 2026: Open Solana Hub launched. August 2026: Alpenglow community testnet. 26-27 August 2026: Solana Summit Serbia, Belgrade.
+- September 2026: Crypto World's Fair hackathon (Colosseum), Stake health live.
+
+## Contact
+
+- Website: https://andrewinua.com
+- X: https://x.com/Andrew_In_UA
+- Telegram: https://t.me/AndrewInUA
+- GitHub: https://github.com/AndrewInUA
+- Email: andrewkyivzpua@gmail.com
