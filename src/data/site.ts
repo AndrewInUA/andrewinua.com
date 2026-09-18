@@ -173,7 +173,7 @@ export const timeline: { year: string; items: Milestone[] }[] = [
       {
         date: 'June 2026',
         title: 'Launched Open Solana Hub',
-        detail: 'Solana explained in plain English and Ukrainian, with the dashboard built in. The news section followed in July.',
+        detail: 'Solana in plain language: guides, news, and tools in one place.',
         image: { src: '/images/timeline/open-solana-hub.png', alt: 'Open Solana Hub logo' },
       },
       {
@@ -194,7 +194,7 @@ export const timeline: { year: string; items: Milestone[] }[] = [
         date: 'September 2026',
         title: "Crypto World's Fair hackathon: Stake health",
         detail:
-          'Same idea as the dashboard, for the other side: you already staked. What landed last epoch, is it fine, do you need to do anything? Live since 10 September, with a Telegram bot.',
+          'A checkup for people who already staked SOL. What landed last epoch, is the validator fine, do you need to do anything? Live since 10 September, with a Telegram bot.',
         link: { href: 'https://www.opensolanahub.com/compare/mystake.html', label: 'Check your stake' },
         image: { src: '/images/timeline/crypto-worlds-fair.jpg', alt: "Crypto World's Fair poster", kind: 'photo' },
       },
