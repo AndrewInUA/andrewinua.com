@@ -166,7 +166,7 @@ export const timeline: { year: string; items: Milestone[] }[] = [
       {
         date: 'April 2026',
         title: 'Became a member of Superteam Ukraine',
-        detail: "Ukraine's builder community in the Solana ecosystem.",
+        detail: "Ukraine's builder community in the Solana ecosystem. I learn from successful, like-minded people there, and I contribute as I go.",
         image: { src: '/images/timeline/superteam-ukraine.svg', alt: 'Superteam Ukraine logo' },
         highlight: true,
       },
@@ -179,14 +179,14 @@ export const timeline: { year: string; items: Milestone[] }[] = [
       {
         date: 'August 2026',
         title: 'Joined the Alpenglow community testnet',
-        detail: "Running a node on Solana's next consensus protocol before it reaches mainnet.",
+        detail: "Diving into Solana's next consensus on testnet: I'm on it now, so I won't be meeting it for the first time on mainnet.",
         image: { src: '/images/timeline/alpenglow-square.jpg', alt: 'A mountain peak at dawn: Alpenglow', kind: 'square' },
         highlight: true,
       },
       {
         date: '26-27 August 2026',
         title: 'Solana Summit Serbia, Belgrade',
-        detail: 'My first Solana conference in person. The most interesting part happened away from the stage.',
+        detail: 'My first Solana conference in real life. New connections, a lot of inspiration, and takeaways.',
         link: { href: links.summitArticle, label: 'What I took home from Belgrade' },
         image: { src: '/images/timeline/summit-serbia.jpg', alt: 'Solana Summit Serbia logo', kind: 'photo' },
       },
@@ -242,7 +242,7 @@ export const projectGroups: ProjectGroup[] = [
         name: 'Open Solana Hub',
         icon: '/images/open-solana-hub.png',
         summary:
-          'Solana explained in plain English and Ukrainian, with a news section and the dashboard built in. Open to anyone who wants to understand how the network works before they stake.',
+          'Solana in plain language. Guides, news, Validator Transparency and Stake health, all in one place for people who need to understand the network before they take action.',
         links: [{ href: links.osh, label: 'opensolanahub.com' }],
       },
     ],

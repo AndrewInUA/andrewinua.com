@@ -30,6 +30,8 @@ Delegate from any Solana wallet with staking (Phantom, Solflare, Backpack): open
 
 ## Milestones
 
+Full timeline with dates: https://andrewinua.com/#timeline
+
 - March 2022: testnet validator launched, weeks after russia's full-scale invasion of Ukraine began.
 - 5 November 2022: joined the Solana Ukrainian validators community.
 - 16 August 2023: mainnet, approved for the Solana Foundation Delegation Program.

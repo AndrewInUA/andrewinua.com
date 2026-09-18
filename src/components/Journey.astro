@@ -9,9 +9,9 @@ import { timeline } from '../data/site';
         <h2>My journey in Solana</h2>
         <p class="lede">I didn't come to Solana as a developer. My background is journalism and communications: writing, and getting people to understand each other.</p>
         <p>When the full-scale russian invasion of Ukraine started, I wanted to build something that would keep working while a lot around me wasn't. Solana was where that made sense to me. There was a lot to learn, and I knew the way through would be hard. It always is.</p>
-        <p>So I launched a testnet validator in March 2022. At first I didn't really know what I was doing, so I learned as I went. Testnet taught me a lot. By the time I was approved for mainnet in August 2023, I had enough behind me to keep going.</p>
+        <p>So I launched a testnet validator in March 2022. At first I was a bit scared, because it was a completely new field for me, so I started learning hard. Testnet taught me a lot. By the time I was approved for mainnet in August 2023, I had enough behind me to keep going.</p>
         <p>Over time it grew past being just a node. I made guides in plain language, a hub in English and Ukrainian, and I became part of a strong community.</p>
-        <p>The validator is still running, and so am I. Here it is, one date at a time.</p>
+        <p>The validator is still running, and so am I. Here it is, one date at a time:</p>
       </div>
       <figure class="story__figure">
         <picture>
@@ -20,6 +20,11 @@ import { timeline } from '../data/site';
         </picture>
         <figcaption>Solana Summit Serbia, Belgrade, August 2026. My first Solana conference in person.</figcaption>
       </figure>
+    </div>
+
+    <div class="timeline__head" id="timeline">
+      <p class="timeline__label">AndrewInUA validator timeline</p>
+      <h3 class="timeline__title">From the first testnet node in March 2022 to today</h3>
     </div>
 
     <ol class="timeline" aria-label="Timeline">
@@ -105,6 +110,26 @@ import { timeline } from '../data/site';
   }
 
   /* Timeline */
+  .timeline__head {
+    scroll-margin-top: 5rem;
+    margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
+    padding-top: clamp(1.5rem, 4vw, 2.5rem);
+    border-top: 1px solid var(--line);
+  }
+
+  .timeline__label {
+    margin: 0 0 0.35rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+
+  .timeline__title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+  }
+
   .timeline {
     list-style: none;
     margin: 0;
