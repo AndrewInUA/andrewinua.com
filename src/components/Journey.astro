@@ -227,7 +227,8 @@ import { timeline } from '../data/site';
   }
 
   .milestone--highlight {
-    max-width: var(--measure);
+    /* the text column keeps the normal measure; the card grows by the logo, gap and padding */
+    max-width: calc(var(--measure) + 96px + 1rem + 2.5rem);
     padding: 1.25rem 1.25rem 1.35rem;
     border: 1px solid rgba(249, 203, 32, 0.45);
     border-radius: 12px;

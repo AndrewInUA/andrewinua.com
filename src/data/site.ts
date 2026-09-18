@@ -166,7 +166,7 @@ export const timeline: { year: string; items: Milestone[] }[] = [
       {
         date: 'April 2026',
         title: 'Became a member of Superteam Ukraine',
-        detail: "Ukraine's builder community in the Solana ecosystem. I learn from successful, like-minded people there, and I contribute as I go.",
+        detail: "Ukraine's builder community in the Solana ecosystem. I learn from successful, like-minded people there and contribute as I go.",
         image: { src: '/images/timeline/superteam-ukraine.svg', alt: 'Superteam Ukraine logo' },
         highlight: true,
       },
